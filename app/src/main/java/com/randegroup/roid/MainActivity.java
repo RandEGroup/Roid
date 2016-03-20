@@ -1,14 +1,27 @@
 package com.randegroup.roid;
 
-import android.app.*;
-import android.os.*;
+import android.os.Bundle;
+import android.content.Intent;
 
-public class MainActivity extends Activity 
-{
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+public class MainActivity extends AppCompatActivity{
+	Toolbar toolbar;
+	
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		bindViews();
+		setupToolbar();
+	}
+	// 绑定控件
+	public void bindViews(){
+		toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+	}
+	// 设置Toolbar
+	public void setupToolbar(){
+		toolbar.setTitle(getTitle());
+		setSupportActionBar(toolbar);
+	}
 }
