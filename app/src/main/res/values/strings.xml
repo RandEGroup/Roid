@@ -2,4 +2,8 @@
 <resources>
 	<!-- Application -->
     <string name="app_name">Roid2</string>
+	
+	<!-- Debug -->
+	<string name="drawer_open">Opened</string>
+	<string name="drawer_close">Closed</string>
 </resources>
