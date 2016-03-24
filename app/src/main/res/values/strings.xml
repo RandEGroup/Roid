@@ -3,6 +3,9 @@
 	<!-- Application -->
     <string name="app_name">Roid2</string>
 	
+	<!-- Drawer -->
+	<string name="drawer_homepage">首页</string>
+	
 	<!-- Debug -->
 	<string name="drawer_open">Opened</string>
 	<string name="drawer_close">Closed</string>

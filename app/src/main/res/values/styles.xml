@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+	
+    <style name="BaseAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
 		<item name="colorPrimaryDark">#0288D1</item>
 		<item name="colorPrimary">#03A9F4</item>
 		<item name="colorAccent">#E040FB</item>
 	</style>
+	
+	<style name="AppTheme" parent="@style/BaseAppTheme">
+	</style>
+	
 	<style name="AppTheme.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
 	</style>
+	
 	<style name="ToolbarStyle" parent="">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 	</style>
+	
 </resources>

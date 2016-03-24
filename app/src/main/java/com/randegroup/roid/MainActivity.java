@@ -1,20 +1,26 @@
 package com.randegroup.roid;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.design.widget.NavigationView;
 
 public class MainActivity extends AppCompatActivity{
 	Toolbar toolbar;
 	DrawerLayout mDrawerLayout;
+	NavigationView mNavView;
 	ActionBarDrawerToggle mDrawerToggle;
-	ListView mDrawerItems;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -26,7 +32,7 @@ public class MainActivity extends AppCompatActivity{
 	public void bindViews(){
 		toolbar = (Toolbar)findViewById(R.id.main_toolbar);
 		mDrawerLayout = (DrawerLayout)findViewById(R.id.main_drawerlayout);
-		mDrawerItems = (ListView)findViewById(R.id.main_drawer_items);
+		mNavView = (NavigationView)findViewById(R.id.main_nav_view);
 	}
 	// 设置Toolbar和抽屉
 	public void setupToolbar(){
@@ -48,5 +54,18 @@ public class MainActivity extends AppCompatActivity{
         };
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+		mNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+			@Override
+			public boolean onNavigationItemSelected(MenuItem menuItem) {
+				// 点击事件
+				menuItem.setChecked(true);
+				mDrawerLayout.closeDrawers();
+				return true;
+			}
+		});
+	}
+	// 添加Item
+	public void addNavItem(Integer id,String name){
+		// 先留空，以后再弄
 	}
 }
