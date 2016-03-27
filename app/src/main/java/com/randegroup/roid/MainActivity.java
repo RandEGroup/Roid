@@ -112,6 +112,11 @@ public class MainActivity extends AppCompatActivity{
 				transaction.replace(R.id.main_container,fragment);
 				transaction.commit();
 			}
+			menu_id++;
+		}
+		// 获取Id
+		int getMenuId(String id){
+			return mIdMap.get(id);
 		}
 	}
 }
