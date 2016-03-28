@@ -106,9 +106,10 @@ public class MainActivity extends AppCompatActivity{
 			mFragmentList.add(fragment);
 			// Menu
 			Menu menu = mNavView.getMenu();
-			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black);
+			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black).setCheckable(true);
 			// 启动Fragment
 			if(needToOpen){
+				transaction = manager.beginTransaction();
 				transaction.replace(R.id.main_container,fragment);
 				transaction.commit();
 			}
