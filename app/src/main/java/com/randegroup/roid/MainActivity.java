@@ -3,7 +3,6 @@ package com.randegroup.roid;
 import java.io.File;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity{
 	// 控件
@@ -27,10 +27,11 @@ public class MainActivity extends AppCompatActivity{
 	private DrawerLayout mDrawerLayout;
 	private NavigationView mNavView;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private FloatingActionButton mFab;
 	// Id映射，通过String存取
 	private Map<String,Integer> mIdMap;
 	// 存入Fragment
-	private List<Fragment> mFragmentList;
+	private Map<Integer,Fragment> mFragmentList;
 	// Menu
 	private MenuHelper mMenuHelper;
 	
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity{
 	// 设置数据
 	public void setupData(){
 		mIdMap = new ArrayMap<String,Integer>();
-		mFragmentList = new ArrayList<Fragment>();
+		mFragmentList = new ArrayMap<Integer,Fragment>();
 		mMenuHelper = new MenuHelper();
 	}
 	// 绑定控件
@@ -51,6 +52,14 @@ public class MainActivity extends AppCompatActivity{
 		toolbar = (Toolbar)findViewById(R.id.main_toolbar);
 		mDrawerLayout = (DrawerLayout)findViewById(R.id.main_drawerlayout);
 		mNavView = (NavigationView)findViewById(R.id.main_nav_view);
+		mFab = (FloatingActionButton)findViewById(R.id.main_fab);
+		// 设置FAB的点击事件
+		mFab.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				// 留空
+			}
+		});
 		setupToolbar();
 	}
 	// 设置Toolbar和抽屉
@@ -103,21 +112,29 @@ public class MainActivity extends AppCompatActivity{
 		void addNavItem(String id,String name,Fragment fragment,boolean needToOpen){
 			// 数据
 			mIdMap.put(id,menu_id);
-			mFragmentList.add(fragment);
+			mFragmentList.put(menu_id,fragment);
 			// Menu
 			Menu menu = mNavView.getMenu();
 			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black).setCheckable(true);
 			// 启动Fragment
 			if(needToOpen){
-				transaction = manager.beginTransaction();
-				transaction.replace(R.id.main_container,fragment);
-				transaction.commit();
+				showFragment(fragment);
 			}
 			menu_id++;
 		}
 		// 获取Id
 		int getMenuId(String id){
 			return mIdMap.get(id);
+		}
+		// 获取Fragment
+		Fragment getFragment(Integer id){
+			return mFragmentList.get(id);
+		}
+		// 显示Fragment
+		void showFragment(Fragment fragment){
+			transaction = manager.beginTransaction();
+			transaction.replace(R.id.main_container,fragment);
+			transaction.commit();
 		}
 	}
 }
