@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity{
 	// Id映射，通过String存取
 	private Map<String,Integer> mIdMap;
 	// 存入Fragment
-	private Map<Integer,Fragment> mFragmentList;
+	private Map<Integer,Fragment> mFragmentMap;
 	// Menu
-	private MenuHelper mMenuHelper;
+	private DrawerHelper mDrawerHelper;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity{
 	// 设置数据
 	public void setupData(){
 		mIdMap = new ArrayMap<String,Integer>();
-		mFragmentList = new ArrayMap<Integer,Fragment>();
-		mMenuHelper = new MenuHelper();
+		mFragmentMap = new ArrayMap<Integer,Fragment>();
+		mDrawerHelper = new DrawerHelper();
 	}
 	// 绑定控件
 	public void bindViews(){
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity{
 			}
 		});
 	}
-	private class MenuHelper{
+	private class DrawerHelper{
 		// id
 		int menu_id = 1;
 		// Fragment
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
 		FragmentTransaction transaction;
 		
 		// 构造
-		MenuHelper(){
+		DrawerHelper(){
 			manager = getSupportFragmentManager();
 			transaction = manager.beginTransaction();
 		}
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity{
 		void addNavItem(String id,String name,Fragment fragment,boolean needToOpen){
 			// 数据
 			mIdMap.put(id,menu_id);
-			mFragmentList.put(menu_id,fragment);
+			mFragmentMap.put(menu_id,fragment);
 			// Menu
 			Menu menu = mNavView.getMenu();
 			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black).setCheckable(true);
@@ -128,13 +128,16 @@ public class MainActivity extends AppCompatActivity{
 		}
 		// 获取Fragment
 		Fragment getFragment(Integer id){
-			return mFragmentList.get(id);
+			return mFragmentMap.get(id);
 		}
 		// 显示Fragment
 		void showFragment(Fragment fragment){
 			transaction = manager.beginTransaction();
 			transaction.replace(R.id.main_container,fragment);
 			transaction.commit();
+		}
+		void showFragment(String id){
+			showFragment(getFragment(getMenuId(id)));
 		}
 	}
 }
