@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.FloatingActionButton;
 
+
 public class MainActivity extends AppCompatActivity{
 	// 控件
 	private Toolbar toolbar;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity{
 	private Map<Integer,Fragment> mFragmentMap;
 	// Menu
 	private DrawerHelper mDrawerHelper;
+	//编辑器Fragment
+	private EditorFragment mEditorFragment;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity{
 		mIdMap = new ArrayMap<String,Integer>();
 		mFragmentMap = new ArrayMap<Integer,Fragment>();
 		mDrawerHelper = new DrawerHelper();
+		mEditorFragment = new EditorFragment();
 	}
 	// 绑定控件
 	public void bindViews(){
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity{
 		mFab.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
+				
+				mDrawerHelper.showFragment(mEditorFragment);
 				// 留空
 			}
 		});
