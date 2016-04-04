@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<resources>
+		<drawable name="solarized_light_base03"                      >#002b36</drawable>
+		<drawable name="solarized_light_base02"                      >#073642</drawable>
+		<drawable name="solarized_light_base01"                      >#586e75</drawable>
+		<drawable name="solarized_light_base00"                      >#657b83</drawable>
+		<drawable name="solarized_light_base0"                       >#839496</drawable>
+		<drawable name="solarized_light_base1"                       >#93a1a1</drawable>
+		<drawable name="solarized_light_base2"                       >#eee8d5</drawable>
+		<drawable name="solarized_light_base3"                       >#fdf6e3</drawable>
+		<drawable name="solarized_light_yellow"                      >#b58900</drawable>
+		<drawable name="solarized_light_orange"                      >#cb4b16</drawable>
+		<drawable name="solarized_light_red"                         >#dc322f</drawable>
+		<drawable name="solarized_light_magenta"                     >#d33682</drawable>
+		<drawable name="solarized_light_violet"                      >#6c71c4</drawable>
+		<drawable name="solarized_light_blue"                        >#268bd2</drawable>
+		<drawable name="solarized_light_cyan"                        >#2aa198</drawable>
+		<drawable name="solarized_light_green"                       >#859900</drawable>
+	</resources>

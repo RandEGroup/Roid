@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<resources>
+		<drawable name="solarized_dark_base03"                      >#002b36</drawable>
+		<drawable name="solarized_dark_base02"                      >#073642</drawable>
+		<drawable name="solarized_dark_base01"                      >#586e75</drawable>
+		<drawable name="solarized_dark_base00"                      >#657b83</drawable>
+		<drawable name="solarized_dark_base0"                       >#839496</drawable>
+		<drawable name="solarized_dark_base1"                       >#93a1a1</drawable>
+		<drawable name="solarized_dark_base2"                       >#eee8d5</drawable>
+		<drawable name="solarized_dark_base3"                       >#fdf6e3</drawable>
+		<drawable name="solarized_dark_yellow"                      >#b58900</drawable>
+		<drawable name="solarized_dark_orange"              		 >#cb4b16</drawable>
+		<drawable name="solarized_dark_red"                         >#dc322f</drawable>
+		<drawable name="solarized_dark_magenta"                     >#d33682</drawable>
+		<drawable name="solarized_dark_violet"                      >#6c71c4</drawable>
+		<drawable name="solarized_dark_blue"                        >#268bd2</drawable>
+		<drawable name="solarized_dark_cyan"                        >#2aa198</drawable>
+		<drawable name="solarized_dark_green"                       >#859900</drawable>
+	</resources>

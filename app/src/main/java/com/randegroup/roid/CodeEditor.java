@@ -19,6 +19,16 @@ public class CodeEditor extends EditText
 		// TODO: Implement this method
 		super.onDraw(canvas);
 	}
+
+	@Override
+	protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter)
+	{
+		// TODO: Implement this method
+		super.onTextChanged(text, start, lengthBefore, lengthAfter);
+		invalidate();
+	}
+	
+	
 	
 	
 	
