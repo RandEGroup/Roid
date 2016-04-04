@@ -8,7 +8,7 @@ import android.widget.*;
 
 public class CodeEditor extends EditText
 {
-	CodeEditor(Context context, AttributeSet attrs)
+	public CodeEditor(Context context, AttributeSet attrs)
 	{
 		super(context,attrs);
 	}
