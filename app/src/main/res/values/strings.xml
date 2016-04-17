@@ -5,8 +5,9 @@
 	
 	<!-- Drawer -->
 	<string name="drawer_homepage">首页</string>
+	<string name="drawer_open">打开抽屉</string>
+	<string name="drawer_close">关闭抽屉</string>
 	
-	<!-- Debug -->
-	<string name="drawer_open">Opened</string>
-	<string name="drawer_close">Closed</string>
+	<!-- Homepage -->
+	<string name="item_deleted">已删除</string>
 </resources>

@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity{
 	private Map<Integer,Fragment> mFragmentMap;
 	// Menu
 	private DrawerHelper mDrawerHelper;
-	//编辑器Fragment
-	private EditorFragment mEditorFragment;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -49,24 +47,24 @@ public class MainActivity extends AppCompatActivity{
 		mIdMap = new ArrayMap<String,Integer>();
 		mFragmentMap = new ArrayMap<Integer,Fragment>();
 		mDrawerHelper = new DrawerHelper();
-		mEditorFragment = new EditorFragment();
 	}
 	// 绑定控件
 	public void bindViews(){
 		toolbar = (Toolbar)findViewById(R.id.main_toolbar);
 		mDrawerLayout = (DrawerLayout)findViewById(R.id.main_drawerlayout);
 		mNavView = (NavigationView)findViewById(R.id.main_nav_view);
+		setupToolbar();
 		mFab = (FloatingActionButton)findViewById(R.id.main_fab);
 		// 设置FAB的点击事件
 		mFab.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				
-				mDrawerHelper.showFragment(mEditorFragment);
+				mDrawerHelper.addFragment(null);
 				// 留空
 			}
 		});
-		setupToolbar();
+		mDrawerHelper.addHomepage();
 	}
 	// 设置Toolbar和抽屉
 	public void setupToolbar(){
@@ -93,6 +91,7 @@ public class MainActivity extends AppCompatActivity{
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 				// 点击事件
 				menuItem.setChecked(true);
+				mDrawerHelper.showFragment(menuItem.getItemId());
 				mDrawerLayout.closeDrawers();
 				return true;
 			}
@@ -101,6 +100,7 @@ public class MainActivity extends AppCompatActivity{
 	private class DrawerHelper{
 		// id
 		int menu_id = 1;
+		int newfile_id = 1;
 		// Fragment
 		FragmentManager manager;
 		FragmentTransaction transaction;
@@ -112,21 +112,37 @@ public class MainActivity extends AppCompatActivity{
 		}
 		// 添加Fragment
 		void addFragment(File file){
-			// 留空，什么时候能够使用编辑功能就加上
+			Fragment fragment = new EditorFragment();
+			if(file != null){
+				// 这里写读取内容
+				addNavItem(file.getName(),file.getName(),fragment);
+			} else {
+				// 同上
+				addNavItem("new" + new Integer(newfile_id).toString(),"new" + new Integer(newfile_id).toString(),fragment);
+			}
+			mDrawerLayout.openDrawer(mNavView);
 		}
 		// 添加Item
-		void addNavItem(String id,String name,Fragment fragment,boolean needToOpen){
+		void addNavItem(String id,String name,Fragment fragment){
 			// 数据
 			mIdMap.put(id,menu_id);
 			mFragmentMap.put(menu_id,fragment);
 			// Menu
 			Menu menu = mNavView.getMenu();
 			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black).setCheckable(true);
-			// 启动Fragment
-			if(needToOpen){
-				showFragment(fragment);
-			}
 			menu_id++;
+		}
+		// 下面这个方法只能使用一次，在打开时添加主页
+		void addHomepage(){
+			// 数据
+			mIdMap.put("homepage",0);
+			mFragmentMap.put(0,new HomepageFragment());
+			// Menu
+			Menu menu = mNavView.getMenu();
+			menu.add(0,0,0,getResources().getString(R.string.drawer_homepage)).setIcon(R.drawable.ic_home_black).setCheckable(true).setChecked(true);
+			menu_id++;
+			// 显示
+			showFragment(0);
 		}
 		// 获取Id
 		int getMenuId(String id){
@@ -142,8 +158,8 @@ public class MainActivity extends AppCompatActivity{
 			transaction.replace(R.id.main_container,fragment);
 			transaction.commit();
 		}
-		void showFragment(String id){
-			showFragment(getFragment(getMenuId(id)));
+		void showFragment(int id){
+			showFragment(getFragment(id));
 		}
 	}
 }
