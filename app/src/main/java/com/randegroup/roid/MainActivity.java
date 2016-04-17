@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity{
 				// 同上
 				addNavItem("new" + new Integer(newfile_id).toString(),"new" + new Integer(newfile_id).toString(),fragment);
 			}
+			newfile_id ++;
 			mDrawerLayout.openDrawer(mNavView);
 		}
 		// 添加Item
