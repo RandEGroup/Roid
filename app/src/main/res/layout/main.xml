@@ -32,8 +32,19 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior">
-			
+
 		</LinearLayout>
+		
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/main_check_image"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginRight="@dimen/main_fab_margin_right"
+			android:layout_marginBottom="@dimen/main_fab_margin_bottom"
+			android:layout_gravity="right|bottom"
+			android:src="@drawable/ic_check_white"
+			android:visibility="gone"
+			app:backgroundTint="#FFC107"/>
 
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/main_fab"
@@ -55,3 +66,4 @@
 		app:menu="@menu/drawer"/>
 
 </android.support.v4.widget.DrawerLayout>
+

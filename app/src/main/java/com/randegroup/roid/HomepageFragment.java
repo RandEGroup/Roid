@@ -26,6 +26,7 @@ public class HomepageFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		// TODO: Implement this method
+		MainActivity.changeIcon(MainActivity.FAB_ADD);
 		View homepageView = inflater.inflate(R.layout.homepage,null);
 		setupData();
 		recycler = (RecyclerView)homepageView.findViewById(R.id.homepage_recycler);

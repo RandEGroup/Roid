@@ -5,10 +5,15 @@ import java.util.Map;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,13 +33,20 @@ public class MainActivity extends AppCompatActivity{
 	private DrawerLayout mDrawerLayout;
 	private NavigationView mNavView;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private FloatingActionButton mFab;
+	private static FloatingActionButton mFab;
+	private FloatingActionButton mCheckImage;
 	// Id映射，通过String存取
 	private Map<String,Integer> mIdMap;
 	// 存入Fragment
 	private Map<Integer,Fragment> mFragmentMap;
 	// Menu
 	private DrawerHelper mDrawerHelper;
+	// FAB图标
+	final static int FAB_ADD = R.drawable.ic_add_white;
+	final static int FAB_SAVE = R.drawable.ic_save_white;
+	static int FAB_IC_NOW;
+	// 动画支持
+	boolean nowFab = true;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -59,11 +71,27 @@ public class MainActivity extends AppCompatActivity{
 		mFab.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				
-				mDrawerHelper.addFragment(null);
-				// 留空
+				switch(FAB_IC_NOW){
+					case FAB_ADD:
+						mDrawerHelper.addFragment(null);
+						break;
+					case FAB_SAVE:
+						// 保存，参数是文件
+						EditorFragment.save(null);
+						// 延时留出时间保存
+						Handler handler = new Handler();
+						Runnable runnable = new Runnable(){
+							@Override
+							public void run(){
+								animWhenSave();
+							}
+						};
+						handler.postDelayed(runnable,1500);
+						break;
+				}
 			}
 		});
+		mCheckImage = (FloatingActionButton)findViewById(R.id.main_check_image);
 		mDrawerHelper.addHomepage();
 	}
 	// 设置Toolbar和抽屉
@@ -97,6 +125,52 @@ public class MainActivity extends AppCompatActivity{
 			}
 		});
 	}
+	// 改变图标
+	public static void changeIcon(int resId){
+		mFab.setImageResource(resId);
+		FAB_IC_NOW = resId;
+	}
+	// 动画
+	public void animWhenSave(){
+		final Animation checkInAnim = AnimationUtils.loadAnimation(this,R.anim.image_in);
+		final Animation checkOutAnim = AnimationUtils.loadAnimation(this,R.anim.image_out);
+		checkInAnim.setAnimationListener(new Animation.AnimationListener(){
+			@Override
+			public void onAnimationStart(Animation p1)
+			{
+				// TODO: Implement this method
+				Animation outAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.image_out);
+				mFab.startAnimation(outAnim);
+				mFab.setVisibility(View.GONE);
+				Handler handler = new Handler();
+				Runnable runnable = new Runnable(){
+					@Override
+					public void run(){
+						mCheckImage.startAnimation(checkOutAnim);
+						mCheckImage.setVisibility(View.GONE);
+						Animation inAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.image_in);
+						mFab.setVisibility(View.VISIBLE);
+						mFab.startAnimation(inAnim);
+					}
+				};
+				handler.postDelayed(runnable,3000);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation p1)
+			{
+				// TODO: Implement this method
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation p1)
+			{
+				// TODO: Implement this method
+			}
+		});
+		mCheckImage.setVisibility(View.VISIBLE);
+		mCheckImage.startAnimation(checkInAnim);
+	}
 	private class DrawerHelper{
 		// id
 		int menu_id = 1;
@@ -112,7 +186,7 @@ public class MainActivity extends AppCompatActivity{
 		}
 		// 添加Fragment
 		void addFragment(File file){
-			Fragment fragment = new EditorFragment();
+			Fragment fragment = new EditorFragment(file);
 			if(file != null){
 				// 这里写读取内容
 				addNavItem(file.getName(),file.getName(),fragment);
