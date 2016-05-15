@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -24,7 +25,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+
+import me.yugy.github.reveallayout.RevealLayout;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -47,6 +51,11 @@ public class MainActivity extends AppCompatActivity{
 	static int FAB_IC_NOW;
 	// 动画支持
 	boolean nowFab = true;
+	// 添加Fragment动画
+	View mFragmentAddView;
+	RevealLayout mReveal;
+	// 最后添加
+	int latest_add = 1;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -68,30 +77,40 @@ public class MainActivity extends AppCompatActivity{
 		setupToolbar();
 		mFab = (FloatingActionButton)findViewById(R.id.main_fab);
 		// 设置FAB的点击事件
-		mFab.setOnClickListener(new View.OnClickListener(){
+		mFab.setOnTouchListener(new View.OnTouchListener(){
 			@Override
-			public void onClick(View v){
-				switch(FAB_IC_NOW){
-					case FAB_ADD:
-						mDrawerHelper.addFragment(null);
-						break;
-					case FAB_SAVE:
-						// 保存，参数是文件
-						EditorFragment.save(null);
-						// 延时留出时间保存
-						Handler handler = new Handler();
-						Runnable runnable = new Runnable(){
-							@Override
-							public void run(){
-								animWhenSave();
-							}
-						};
-						handler.postDelayed(runnable,1500);
+			public boolean onTouch(View view, MotionEvent event){
+				// TODO: Implement this method
+				switch(event.getAction()){
+					case MotionEvent.ACTION_UP:
+						switch(FAB_IC_NOW){
+							case FAB_ADD:
+								animWhenAdd((int)event.getX(),(int)event.getY());
+								mDrawerHelper.addFragment(null);
+								break;
+							case FAB_SAVE:
+								// 保存，参数是文件
+								EditorFragment.save(null);
+								// 延时留出时间保存
+								Handler handler = new Handler();
+								Runnable runnable = new Runnable(){
+									@Override
+									public void run(){
+										animWhenSave();
+									}
+								};
+								handler.postDelayed(runnable,1500);
+								break;
+						}
 						break;
 				}
+				return true;
 			}
 		});
 		mCheckImage = (FloatingActionButton)findViewById(R.id.main_check_image);
+		mFragmentAddView = (View)findViewById(R.id.main_add_anim);
+		mReveal = (RevealLayout)findViewById(R.id.reveal_layout);
+		mReveal.hide();
 		mDrawerHelper.addHomepage();
 	}
 	// 设置Toolbar和抽屉
@@ -171,6 +190,18 @@ public class MainActivity extends AppCompatActivity{
 		mCheckImage.setVisibility(View.VISIBLE);
 		mCheckImage.startAnimation(checkInAnim);
 	}
+	public void animWhenAdd(final int x,final int y){
+		mReveal.show(x,y,300);
+		Handler handler = new Handler();
+		Runnable runnable = new Runnable(){
+			@Override
+			public void run(){
+				mDrawerHelper.showFragment(mIdMap.get("new" + new Integer(latest_add).toString()));
+				mReveal.hide(x,y,300);
+			}
+		};
+		handler.postDelayed(runnable,1000);
+	}
 	private class DrawerHelper{
 		// id
 		int menu_id = 1;
@@ -193,9 +224,10 @@ public class MainActivity extends AppCompatActivity{
 			} else {
 				// 同上
 				addNavItem("new" + new Integer(newfile_id).toString(),"new" + new Integer(newfile_id).toString(),fragment);
+				latest_add = newfile_id;
 			}
 			newfile_id ++;
-			mDrawerLayout.openDrawer(mNavView);
+			//mDrawerLayout.openDrawer(mNavView);
 		}
 		// 添加Item
 		void addNavItem(String id,String name,Fragment fragment){
@@ -204,7 +236,7 @@ public class MainActivity extends AppCompatActivity{
 			mFragmentMap.put(menu_id,fragment);
 			// Menu
 			Menu menu = mNavView.getMenu();
-			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black).setCheckable(true);
+			menu.add(0,menu_id,0,name).setIcon(R.drawable.ic_edit_black).setCheckable(true).setChecked(true);
 			menu_id++;
 		}
 		// 下面这个方法只能使用一次，在打开时添加主页

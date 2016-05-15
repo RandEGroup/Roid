@@ -11,7 +11,7 @@
 		android:id="@+id/main_layout"
 		android:layout_height="match_parent"
 		android:layout_width="match_parent">
-
+		
 		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
@@ -54,6 +54,21 @@
 			android:layout_marginBottom="@dimen/main_fab_margin_bottom"
 			android:layout_gravity="right|bottom"
 			android:src="@drawable/ic_add_white"/>
+		
+		<me.yugy.github.reveallayout.RevealLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/reveal_layout">
+		
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/main_add_anim"
+				android:background="#FFFFFF"
+				android:layout_gravity="right|bottom"
+				android:layout_weight="1"/>
+			
+		</me.yugy.github.reveallayout.RevealLayout>
 
 	</android.support.design.widget.CoordinatorLayout>
 
